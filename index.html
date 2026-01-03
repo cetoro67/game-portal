@@ -369,6 +369,21 @@
             opacity: 0.1;
         }
 
+        .game-logo {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            transition: all 0.4s ease;
+        }
+
+        .game-card:hover .game-logo {
+            transform: scale(1.1);
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+        }
+
         .game-info {
             position: relative;
             padding: 1.5rem;
@@ -554,8 +569,8 @@
     <script>
         // Game data - Real open-source games!
         const games = [
-            { id: 1, title: "2048", category: "puzzle", badge: "popular", url: "games/2048/index.html" },
-            { id: 2, title: "Clumsy Bird", category: "action", badge: "popular", url: "games/clumsy-bird/index.html" },
+            { id: 1, title: "2048", category: "puzzle", badge: "popular", url: "games/2048/index.html", thumbnail: "games/2048/meta/apple-touch-icon.png", bg: "games/2048/meta/apple-touch-startup-image-640x1096.png" },
+            { id: 2, title: "Clumsy Bird", category: "action", badge: "popular", url: "games/clumsy-bird/index.html", thumbnail: "games/clumsy-bird/data/img/logo.png", bg: "games/clumsy-bird/data/img/bg.png" },
             { id: 3, title: "Puzzle Master Pro", category: "puzzle", badge: "new", url: "https://example.com/game3" },
             { id: 4, title: "Soccer Champions", category: "sport", badge: "popular", url: "https://example.com/game4" },
             { id: 5, title: "Dungeon Quest", category: "adventure", badge: "new", url: "https://example.com/game5" },
@@ -606,8 +621,8 @@
             container.innerHTML = filteredGames.map(game => `
                 <div class="game-card" onclick="playGame('${game.title}', '${game.url}')">
                     ${game.badge ? `<div class="badge ${game.badge === 'new' ? 'new' : ''}">${game.badge === 'new' ? 'New' : 'Popular'}</div>` : ''}
-                    <div class="game-thumbnail">
-                        ${gameIcon}
+                    <div class="game-thumbnail" style="${game.bg ? `background-image: url('${game.bg}'); background-size: cover; background-position: center;` : ''}">
+                        ${game.thumbnail ? `<img src="${game.thumbnail}" alt="${game.title}" class="game-logo">` : gameIcon}
                     </div>
                     <div class="game-info">
                         <div class="game-title">${game.title}</div>
