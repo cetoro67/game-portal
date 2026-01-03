@@ -102,6 +102,19 @@ function Scene_Preloader(){
 		};
 		bar.mousedown = bar.touchend = function(){
 			Game.sounds.squeak.play();
+
+			// Request fullscreen
+			var elem = document.documentElement;
+			if (elem.requestFullscreen) {
+				elem.requestFullscreen();
+			} else if (elem.webkitRequestFullscreen) {
+				elem.webkitRequestFullscreen();
+			} else if (elem.mozRequestFullScreen) {
+				elem.mozRequestFullScreen();
+			} else if (elem.msRequestFullscreen) {
+				elem.msRequestFullscreen();
+			}
+
 			setTimeout(function(){
 				Game.sceneManager.gotoScene("Quote");
 			},200);
