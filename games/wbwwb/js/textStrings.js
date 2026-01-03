@@ -822,3 +822,6 @@ var textStrings_TR = {
 	// (quote0004.png)
 	"misatrributed": "(yanlış bir şekilde ona atfedilir)",
 };
+
+// Set default language to English
+var textStrings = textStrings_EN;
