@@ -1144,7 +1144,8 @@
         const SUPABASE_URL = 'https://hylnserlpzsehfvjxank.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5bG5zZXJscHpzZWhmdmp4YW5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczNzM3MzksImV4cCI6MjA4Mjk0OTczOX0.-bLwcfuxT6xx8bbMXD7O4B9ZI7ODFhFIMW5Z8GEoJ_0';
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase client
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let currentUser = null;
         let isLoginMode = true;
@@ -1340,7 +1341,7 @@
                 // Save to Supabase if logged in (background)
                 if (currentUser) {
                     try {
-                        const { error } = await supabase
+                        const { error } = await supabaseClient
                             .from('user_progress')
                             .upsert({
                                 user_id: currentUser.id,
@@ -1367,7 +1368,7 @@
                 if (!currentUser) return;
 
                 try {
-                    const { data, error } = await supabase
+                    const { data, error } = await supabaseClient
                         .from('user_progress')
                         .select('*')
                         .eq('user_id', currentUser.id)
@@ -1664,13 +1665,13 @@
 
                 if (isLoginMode) {
                     // Login
-                    result = await supabase.auth.signInWithPassword({
+                    result = await supabaseClient.auth.signInWithPassword({
                         email: email,
                         password: password
                     });
                 } else {
                     // Sign up
-                    result = await supabase.auth.signUp({
+                    result = await supabaseClient.auth.signUp({
                         email: email,
                         password: password
                     });
@@ -1709,7 +1710,7 @@
 
         // Logout button click
         document.getElementById('logoutBtn').addEventListener('click', async () => {
-            const { error } = await supabase.auth.signOut();
+            const { error } = await supabaseClient.auth.signOut();
             if (!error) {
                 currentUser = null;
                 updateAuthUI();
@@ -1741,7 +1742,7 @@
         }
 
         // Check auth state on load
-        supabase.auth.onAuthStateChange(async (event, session) => {
+        supabaseClient.auth.onAuthStateChange(async (event, session) => {
             if (session?.user) {
                 currentUser = session.user;
                 updateAuthUI();
@@ -1762,7 +1763,7 @@
         });
 
         // Initialize authentication
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabaseClient.auth.getSession().then(({ data: { session } }) => {
             if (session?.user) {
                 currentUser = session.user;
                 updateAuthUI();
