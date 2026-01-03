@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIXELPLAY - Play Free Games Online</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght:700;900&family=Exo+2:wght@400;600&display=swap');
 
@@ -88,6 +89,13 @@
             100% { filter: drop-shadow(0 0 25px rgba(255, 0, 170, 0.8)); }
         }
 
+        /* Header Buttons Container */
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         /* Achievements Button */
         .achievements-btn {
             font-family: 'Orbitron', sans-serif;
@@ -108,6 +116,30 @@
         }
 
         .achievements-btn:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px rgba(255, 0, 170, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Login/Logout Buttons */
+        .login-btn,
+        .logout-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover,
+        .logout-btn:hover {
             border-color: var(--neon-pink);
             box-shadow: 0 0 25px rgba(255, 0, 170, 0.4);
             transform: translateY(-2px);
@@ -750,6 +782,148 @@
             font-size: 0.9rem;
         }
 
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-modal.show {
+            display: flex;
+        }
+
+        .login-content {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-blue);
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.6);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+        }
+
+        .form-input {
+            padding: 1rem;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            background: var(--darker-bg);
+            border: 2px solid var(--neon-purple);
+            border-radius: 8px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 170, 0.3);
+        }
+
+        .form-submit {
+            padding: 1rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 170, 0.4);
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .form-toggle button {
+            background: none;
+            border: none;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .form-toggle button:hover {
+            color: var(--neon-pink);
+        }
+
+        .form-error {
+            color: #ff4444;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.8rem;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid #ff4444;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
         /* Footer */
         footer {
             position: relative;
@@ -809,9 +983,17 @@
 <body>
     <header>
         <div class="logo">⚡ PIXELPLAY</div>
-        <button class="achievements-btn" id="achievementsBtn">
-            🏆 <span id="userLevel">Level 1</span>
-        </button>
+        <div class="header-buttons">
+            <button class="achievements-btn" id="achievementsBtn" style="display: none;">
+                🏆 <span id="userLevel">Level 1</span>
+            </button>
+            <button class="login-btn" id="loginBtn">
+                🔐 Login
+            </button>
+            <button class="logout-btn" id="logoutBtn" style="display: none;">
+                👋 Logout
+            </button>
+        </div>
     </header>
 
     <section class="hero">
@@ -926,7 +1108,47 @@
         </div>
     </div>
 
+    <!-- Login/Signup Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <div class="login-header">
+                <h2 class="login-title" id="loginTitle">Welcome Back!</h2>
+                <p class="login-subtitle" id="loginSubtitle">Login to save your progress</p>
+            </div>
+
+            <div class="form-error" id="formError"></div>
+
+            <form class="login-form" id="authForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="emailInput" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="passwordInput" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="form-submit" id="formSubmit">Login</button>
+            </form>
+
+            <div class="form-toggle">
+                <span id="toggleText">Don't have an account?</span>
+                <button type="button" id="toggleMode">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // ========== SUPABASE CONFIGURATION ==========
+        const SUPABASE_URL = 'https://hylnserlpzsehfvjxank.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5bG5zZXJscHpzZWhmdmp4YW5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczNzM3MzksImV4cCI6MjA4Mjk0OTczOX0.-bLwcfuxT6xx8bbMXD7O4B9ZI7ODFhFIMW5Z8GEoJ_0';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentUser = null;
+        let isLoginMode = true;
+
         // Game data - Real open-source games!
         const games = [
             { id: 1, title: "2048", category: "puzzle", badge: "popular", url: "games/2048/index.html", thumbnail: "games/2048/meta/apple-touch-icon.png", bg: "games/2048/meta/apple-touch-startup-image-640x1096.png" },
@@ -1092,7 +1314,7 @@
                 20200   // Level 20
             ],
 
-            // Get user data from localStorage
+            // Get user data from localStorage (cached)
             getData() {
                 const defaultData = {
                     xp: 0,
@@ -1110,9 +1332,73 @@
                 return saved ? { ...defaultData, ...JSON.parse(saved) } : defaultData;
             },
 
-            // Save user data to localStorage
-            saveData(data) {
+            // Save user data to localStorage AND Supabase
+            async saveData(data) {
+                // Save to localStorage (instant)
                 localStorage.setItem('pixelplay_progress', JSON.stringify(data));
+
+                // Save to Supabase if logged in (background)
+                if (currentUser) {
+                    try {
+                        const { error } = await supabase
+                            .from('user_progress')
+                            .upsert({
+                                user_id: currentUser.id,
+                                xp: data.xp,
+                                level: data.level,
+                                games_played: data.gamesPlayed,
+                                achievements: data.achievements,
+                                total_time_spent: data.totalTimeSpent,
+                                current_streak: data.currentStreak,
+                                last_streak_update: data.lastStreakUpdate,
+                                today_time_spent: data.todayTimeSpent,
+                                updated_at: new Date().toISOString()
+                            });
+
+                        if (error) console.error('Error saving to Supabase:', error);
+                    } catch (err) {
+                        console.error('Error saving to Supabase:', err);
+                    }
+                }
+            },
+
+            // Load user data from Supabase
+            async loadFromSupabase() {
+                if (!currentUser) return;
+
+                try {
+                    const { data, error } = await supabase
+                        .from('user_progress')
+                        .select('*')
+                        .eq('user_id', currentUser.id)
+                        .single();
+
+                    if (error && error.code !== 'PGRST116') { // PGRST116 = no rows
+                        console.error('Error loading from Supabase:', error);
+                        return;
+                    }
+
+                    if (data) {
+                        // Convert Supabase data to local format
+                        const progressData = {
+                            xp: data.xp,
+                            level: data.level,
+                            gamesPlayed: data.games_played || [],
+                            achievements: data.achievements || [],
+                            totalTimeSpent: data.total_time_spent,
+                            currentStreak: data.current_streak,
+                            lastStreakUpdate: data.last_streak_update,
+                            todayTimeSpent: data.today_time_spent || 0,
+                            sessionStartTime: Date.now()
+                        };
+
+                        // Save to localStorage
+                        localStorage.setItem('pixelplay_progress', JSON.stringify(progressData));
+                        this.updateUI();
+                    }
+                } catch (err) {
+                    console.error('Error loading from Supabase:', err);
+                }
             },
 
             // Add XP and check for level up
@@ -1340,8 +1626,155 @@
             }
         };
 
-        // Initialize achievement system
-        achievementSystem.init();
+        // ========== AUTHENTICATION HANDLERS ==========
+
+        // Toggle between login and signup
+        document.getElementById('toggleMode').addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+
+            if (isLoginMode) {
+                document.getElementById('loginTitle').textContent = 'Welcome Back!';
+                document.getElementById('loginSubtitle').textContent = 'Login to save your progress';
+                document.getElementById('formSubmit').textContent = 'Login';
+                document.getElementById('toggleText').textContent = "Don't have an account?";
+                document.getElementById('toggleMode').textContent = 'Sign Up';
+            } else {
+                document.getElementById('loginTitle').textContent = 'Create Account';
+                document.getElementById('loginSubtitle').textContent = 'Sign up to save your progress';
+                document.getElementById('formSubmit').textContent = 'Sign Up';
+                document.getElementById('toggleText').textContent = 'Already have an account?';
+                document.getElementById('toggleMode').textContent = 'Login';
+            }
+
+            document.getElementById('formError').classList.remove('show');
+        });
+
+        // Handle login/signup form submission
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('formError');
+
+            errorDiv.classList.remove('show');
+
+            try {
+                let result;
+
+                if (isLoginMode) {
+                    // Login
+                    result = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+                } else {
+                    // Sign up
+                    result = await supabase.auth.signUp({
+                        email: email,
+                        password: password
+                    });
+                }
+
+                if (result.error) {
+                    errorDiv.textContent = result.error.message;
+                    errorDiv.classList.add('show');
+                    return;
+                }
+
+                if (!isLoginMode) {
+                    errorDiv.textContent = 'Account created! Please check your email to verify your account.';
+                    errorDiv.style.color = '#39ff14';
+                    errorDiv.style.borderColor = '#39ff14';
+                    errorDiv.classList.add('show');
+                }
+
+                // Close modal after successful login
+                if (isLoginMode && result.data.user) {
+                    document.getElementById('loginModal').classList.remove('show');
+                    document.getElementById('emailInput').value = '';
+                    document.getElementById('passwordInput').value = '';
+                }
+
+            } catch (err) {
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.classList.add('show');
+            }
+        });
+
+        // Login button click
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            document.getElementById('loginModal').classList.add('show');
+        });
+
+        // Logout button click
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+                currentUser = null;
+                updateAuthUI();
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target.id === 'loginModal') {
+                document.getElementById('loginModal').classList.remove('show');
+            }
+        });
+
+        // Update UI based on auth state
+        function updateAuthUI() {
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const achievementsBtn = document.getElementById('achievementsBtn');
+
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                achievementsBtn.style.display = 'flex';
+            } else {
+                loginBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+                achievementsBtn.style.display = 'none';
+            }
+        }
+
+        // Check auth state on load
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            if (session?.user) {
+                currentUser = session.user;
+                updateAuthUI();
+
+                // Load progress from Supabase
+                await achievementSystem.loadFromSupabase();
+                achievementSystem.updateUI();
+
+                // Start achievement system if not already started
+                if (event === 'SIGNED_IN') {
+                    achievementSystem.updateStreak();
+                    achievementSystem.checkAchievements();
+                }
+            } else {
+                currentUser = null;
+                updateAuthUI();
+            }
+        });
+
+        // Initialize authentication
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                currentUser = session.user;
+                updateAuthUI();
+                achievementSystem.loadFromSupabase().then(() => {
+                    achievementSystem.init();
+                });
+            } else {
+                updateAuthUI();
+                achievementSystem.init();
+            }
+        });
+
     </script>
 </body>
 </html>
