@@ -65,6 +65,9 @@
             border-bottom: 2px solid var(--neon-blue);
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
             z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo {
@@ -83,6 +86,31 @@
         @keyframes logoGlow {
             0% { filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.6)); }
             100% { filter: drop-shadow(0 0 25px rgba(255, 0, 170, 0.8)); }
+        }
+
+        /* Achievements Button */
+        .achievements-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid var(--neon-purple);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .achievements-btn:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px rgba(255, 0, 170, 0.4);
+            transform: translateY(-2px);
         }
 
         /* Hero Section */
@@ -453,6 +481,275 @@
             display: block;
         }
 
+        /* Achievements Modal */
+        .achievements-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .achievements-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-purple);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 40px rgba(176, 38, 255, 0.6);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--neon-blue);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: var(--neon-pink);
+            transform: rotate(90deg);
+        }
+
+        .user-stats {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 12px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            color: var(--neon-blue);
+            font-weight: 700;
+        }
+
+        .xp-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--darker-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--neon-purple);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .achievements-section {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--neon-green);
+        }
+
+        .achievement-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(176, 38, 255, 0.1);
+            border: 1px solid var(--neon-purple);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item.locked {
+            opacity: 0.5;
+            background: rgba(160, 168, 196, 0.1);
+            border-color: var(--text-secondary);
+        }
+
+        .achievement-item:not(.locked):hover {
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(176, 38, 255, 0.4);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            filter: grayscale(100%);
+        }
+
+        .achievement-item:not(.locked) .achievement-icon {
+            filter: grayscale(0%);
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .achievement-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .achievement-xp {
+            color: var(--neon-green);
+            font-weight: 700;
+            align-self: center;
+        }
+
+        /* Popup Notification */
+        .popup-notification {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--neon-pink);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-width: 300px;
+            box-shadow: 0 0 30px rgba(255, 0, 170, 0.6);
+            z-index: 2000;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .popup-notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .popup-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neon-pink);
+        }
+
+        .popup-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            color: var(--neon-pink);
+        }
+
+        .popup-body {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .popup-icon {
+            font-size: 3rem;
+        }
+
+        .popup-text {
+            flex: 1;
+        }
+
+        .popup-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .popup-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
         /* Footer */
         footer {
             position: relative;
@@ -512,6 +809,9 @@
 <body>
     <header>
         <div class="logo">⚡ PIXELPLAY</div>
+        <button class="achievements-btn" id="achievementsBtn">
+            🏆 <span id="userLevel">Level 1</span>
+        </button>
     </header>
 
     <section class="hero">
@@ -565,6 +865,66 @@
     <footer>
         <p>&copy; 2026 PIXELPLAY - Play Free Games Online | All rights reserved</p>
     </footer>
+
+    <!-- Achievements Modal -->
+    <div class="achievements-modal" id="achievementsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🏆 Achievements</h2>
+                <button class="close-btn" id="closeModal">×</button>
+            </div>
+
+            <div class="user-stats">
+                <div class="stat-row">
+                    <span class="stat-label">Level:</span>
+                    <span class="stat-value" id="modalLevel">1</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Total XP:</span>
+                    <span class="stat-value" id="modalXP">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Games Played:</span>
+                    <span class="stat-value" id="modalGamesPlayed">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Time on Site:</span>
+                    <span class="stat-value" id="modalTimeSpent">0 min</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Current Streak:</span>
+                    <span class="stat-value" id="modalStreak">0 days</span>
+                </div>
+
+                <div class="xp-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">0 / 100 XP to Level 2</p>
+                </div>
+            </div>
+
+            <div class="achievements-section">
+                <h3 class="section-title">Achievements</h3>
+                <div id="achievementsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Notification -->
+    <div class="popup-notification" id="popupNotification">
+        <div class="popup-header">
+            <span class="popup-title" id="popupTitle">Achievement Unlocked!</span>
+            <button class="popup-close" id="popupClose">×</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-icon" id="popupIcon">🏆</div>
+            <div class="popup-text">
+                <div class="popup-name" id="popupName">First Game</div>
+                <div class="popup-desc" id="popupDesc">You played your first game!</div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Game data - Real open-source games!
@@ -641,12 +1001,347 @@
 
         // Play game function
         function playGame(title, url) {
+            // Track game play for achievements
+            const gameId = games.find(g => g.title === title)?.id;
+            if (gameId) {
+                achievementSystem.playGame(gameId, games.find(g => g.id === gameId).category);
+            }
             // Open game in new tab
             window.open(url, '_blank');
         }
 
         // Initial render
         renderGames();
+
+        // ========== ACHIEVEMENT SYSTEM ==========
+        const achievementSystem = {
+            // Achievement definitions
+            achievements: [
+                {
+                    id: 'first_game',
+                    name: 'First Game',
+                    description: 'Play your first game',
+                    icon: '🎮',
+                    xpReward: 100,
+                    check: (data) => data.gamesPlayed.length >= 1
+                },
+                {
+                    id: 'action_fan',
+                    name: 'Action Fan',
+                    description: 'Play 3 action games',
+                    icon: '⚡',
+                    xpReward: 100,
+                    check: (data) => data.gamesPlayed.filter(g => {
+                        const game = games.find(gm => gm.id === g.gameId);
+                        return game && game.category === 'action';
+                    }).length >= 3
+                },
+                {
+                    id: 'puzzle_master',
+                    name: 'Puzzle Master',
+                    description: 'Play 3 puzzle games',
+                    icon: '🧩',
+                    xpReward: 100,
+                    check: (data) => data.gamesPlayed.filter(g => {
+                        const game = games.find(gm => gm.id === g.gameId);
+                        return game && game.category === 'puzzle';
+                    }).length >= 3
+                },
+                {
+                    id: 'game_master',
+                    name: 'Game Master',
+                    description: 'Play all 7 games',
+                    icon: '👑',
+                    xpReward: 500,
+                    check: (data) => {
+                        const uniqueGames = new Set(data.gamesPlayed.map(g => g.gameId));
+                        return uniqueGames.size >= 7;
+                    }
+                },
+                {
+                    id: 'daily_player',
+                    name: 'Daily Player',
+                    description: 'Visit 3 days in a row',
+                    icon: '🔥',
+                    xpReward: 200,
+                    check: (data) => data.currentStreak >= 3
+                }
+            ],
+
+            // Level XP requirements (exponential)
+            levelXP: [
+                0,      // Level 1
+                100,    // Level 2
+                250,    // Level 3
+                450,    // Level 4
+                700,    // Level 5
+                1000,   // Level 6
+                1400,   // Level 7
+                1900,   // Level 8
+                2500,   // Level 9
+                3200,   // Level 10
+                4000,   // Level 11
+                5000,   // Level 12
+                6200,   // Level 13
+                7600,   // Level 14
+                9200,   // Level 15
+                11000,  // Level 16
+                13000,  // Level 17
+                15200,  // Level 18
+                17600,  // Level 19
+                20200   // Level 20
+            ],
+
+            // Get user data from localStorage
+            getData() {
+                const defaultData = {
+                    xp: 0,
+                    level: 1,
+                    gamesPlayed: [],
+                    achievements: [],
+                    totalTimeSpent: 0,
+                    lastVisit: Date.now(),
+                    currentStreak: 1,
+                    sessionStartTime: Date.now(),
+                    todayTimeSpent: 0,
+                    lastStreakUpdate: new Date().toDateString()
+                };
+                const saved = localStorage.getItem('pixelplay_progress');
+                return saved ? { ...defaultData, ...JSON.parse(saved) } : defaultData;
+            },
+
+            // Save user data to localStorage
+            saveData(data) {
+                localStorage.setItem('pixelplay_progress', JSON.stringify(data));
+            },
+
+            // Add XP and check for level up
+            addXP(amount) {
+                const data = this.getData();
+                const oldLevel = data.level;
+                data.xp += amount;
+
+                // Check for level up
+                while (data.level < this.levelXP.length && data.xp >= this.levelXP[data.level]) {
+                    data.level++;
+                }
+
+                this.saveData(data);
+                this.updateUI();
+
+                // Show level up notification
+                if (data.level > oldLevel) {
+                    this.showNotification('🎉 Level Up!', `You reached Level ${data.level}!`, '🎊', true);
+                }
+
+                return data.level > oldLevel;
+            },
+
+            // Track game play
+            playGame(gameId, category) {
+                const data = this.getData();
+                const now = Date.now();
+                const cooldown = 15 * 60 * 1000; // 15 minutes
+
+                // Check if game was played recently
+                const lastPlay = data.gamesPlayed.find(g => g.gameId === gameId);
+                if (lastPlay && (now - lastPlay.lastPlayed) < cooldown) {
+                    console.log('Game on cooldown, no XP awarded');
+                    return;
+                }
+
+                // Update or add game play
+                if (lastPlay) {
+                    lastPlay.lastPlayed = now;
+                    lastPlay.playCount = (lastPlay.playCount || 1) + 1;
+                } else {
+                    data.gamesPlayed.push({
+                        gameId: gameId,
+                        category: category,
+                        lastPlayed: now,
+                        playCount: 1
+                    });
+                }
+
+                // Award XP
+                this.addXP(50);
+                this.saveData(data);
+                this.checkAchievements();
+            },
+
+            // Check and unlock achievements
+            checkAchievements() {
+                const data = this.getData();
+                let newAchievements = false;
+
+                this.achievements.forEach(achievement => {
+                    if (!data.achievements.includes(achievement.id) && achievement.check(data)) {
+                        data.achievements.push(achievement.id);
+                        this.addXP(achievement.xpReward);
+                        this.showNotification('Achievement Unlocked!', achievement.name, achievement.icon, false, achievement.description);
+                        newAchievements = true;
+                    }
+                });
+
+                if (newAchievements) {
+                    this.saveData(data);
+                    this.updateUI();
+                }
+            },
+
+            // Show popup notification
+            showNotification(title, name, icon, isLevelUp, description = '') {
+                const popup = document.getElementById('popupNotification');
+                document.getElementById('popupTitle').textContent = title;
+                document.getElementById('popupName').textContent = name;
+                document.getElementById('popupIcon').textContent = icon;
+                document.getElementById('popupDesc').textContent = description || (isLevelUp ? `Congratulations on reaching ${name}!` : '');
+
+                popup.classList.add('show');
+            },
+
+            // Update UI elements
+            updateUI() {
+                const data = this.getData();
+
+                // Update header level
+                document.getElementById('userLevel').textContent = `Level ${data.level}`;
+
+                // Update modal stats
+                document.getElementById('modalLevel').textContent = data.level;
+                document.getElementById('modalXP').textContent = data.xp;
+
+                const uniqueGames = new Set(data.gamesPlayed.map(g => g.gameId));
+                document.getElementById('modalGamesPlayed').textContent = uniqueGames.size;
+
+                const totalMinutes = Math.floor(data.totalTimeSpent / 60);
+                document.getElementById('modalTimeSpent').textContent = `${totalMinutes} min`;
+                document.getElementById('modalStreak').textContent = `${data.currentStreak} days`;
+
+                // Update progress bar
+                const currentLevelXP = this.levelXP[data.level - 1] || 0;
+                const nextLevelXP = this.levelXP[data.level] || this.levelXP[this.levelXP.length - 1];
+                const xpInLevel = data.xp - currentLevelXP;
+                const xpForLevel = nextLevelXP - currentLevelXP;
+                const progress = (xpInLevel / xpForLevel) * 100;
+
+                document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+                document.getElementById('progressText').textContent =
+                    data.level >= this.levelXP.length
+                    ? 'Max Level!'
+                    : `${xpInLevel} / ${xpForLevel} XP to Level ${data.level + 1}`;
+
+                // Update achievements list
+                this.renderAchievements();
+            },
+
+            // Render achievements in modal
+            renderAchievements() {
+                const data = this.getData();
+                const list = document.getElementById('achievementsList');
+
+                list.innerHTML = this.achievements.map(achievement => {
+                    const unlocked = data.achievements.includes(achievement.id);
+                    return `
+                        <div class="achievement-item ${unlocked ? '' : 'locked'}">
+                            <div class="achievement-icon">${achievement.icon}</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">${achievement.name}</div>
+                                <div class="achievement-desc">${achievement.description}</div>
+                            </div>
+                            <div class="achievement-xp">+${achievement.xpReward} XP</div>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            // Track time on site
+            startTimeTracking() {
+                const data = this.getData();
+                data.sessionStartTime = Date.now();
+                this.saveData(data);
+
+                // Update time every minute
+                setInterval(() => {
+                    const data = this.getData();
+                    const sessionTime = Math.floor((Date.now() - data.sessionStartTime) / 1000);
+                    data.totalTimeSpent += 60;
+                    data.todayTimeSpent += 60;
+
+                    // Award XP for time (10 XP per minute)
+                    if (sessionTime % 60 === 0) {
+                        this.addXP(10);
+                    }
+
+                    this.saveData(data);
+                    this.updateUI();
+                }, 60000); // Every minute
+            },
+
+            // Update streak
+            updateStreak() {
+                const data = this.getData();
+                const today = new Date().toDateString();
+                const lastUpdate = data.lastStreakUpdate || today;
+
+                if (lastUpdate !== today) {
+                    const lastDate = new Date(lastUpdate);
+                    const currentDate = new Date(today);
+                    const diffTime = currentDate - lastDate;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (diffDays === 1) {
+                        // Consecutive day - increment streak if spent 5+ minutes
+                        const yesterdayTime = data.todayTimeSpent || 0;
+                        if (yesterdayTime >= 300) { // 5 minutes in seconds
+                            data.currentStreak++;
+                        } else {
+                            data.currentStreak = 1;
+                        }
+                    } else if (diffDays > 1) {
+                        // Missed a day - reset streak
+                        data.currentStreak = 1;
+                    }
+
+                    data.lastStreakUpdate = today;
+                    data.todayTimeSpent = 0;
+                    this.saveData(data);
+                    this.checkAchievements();
+                }
+            },
+
+            // Initialize system
+            init() {
+                this.updateStreak();
+                this.startTimeTracking();
+                this.updateUI();
+                this.checkAchievements();
+
+                // Modal controls
+                document.getElementById('achievementsBtn').addEventListener('click', () => {
+                    document.getElementById('achievementsModal').classList.add('show');
+                    this.updateUI();
+                });
+
+                document.getElementById('closeModal').addEventListener('click', () => {
+                    document.getElementById('achievementsModal').classList.remove('show');
+                });
+
+                document.getElementById('achievementsModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'achievementsModal') {
+                        document.getElementById('achievementsModal').classList.remove('show');
+                    }
+                });
+
+                // Popup close
+                document.getElementById('popupClose').addEventListener('click', () => {
+                    document.getElementById('popupNotification').classList.remove('show');
+                });
+            }
+        };
+
+        // Initialize achievement system
+        achievementSystem.init();
     </script>
 </body>
 </html>
