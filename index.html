@@ -552,10 +552,10 @@
     </footer>
 
     <script>
-        // Game data - in production this would come from a database
+        // Game data - Real open-source games!
         const games = [
-            { id: 1, title: "Cyber Racer 3000", category: "racing", badge: "popular", url: "https://example.com/game1" },
-            { id: 2, title: "Space Invaders Redux", category: "action", badge: "popular", url: "https://example.com/game2" },
+            { id: 1, title: "2048", category: "puzzle", badge: "popular", url: "games/2048/index.html" },
+            { id: 2, title: "Clumsy Bird", category: "action", badge: "popular", url: "games/clumsy-bird/index.html" },
             { id: 3, title: "Puzzle Master Pro", category: "puzzle", badge: "new", url: "https://example.com/game3" },
             { id: 4, title: "Soccer Champions", category: "sport", badge: "popular", url: "https://example.com/game4" },
             { id: 5, title: "Dungeon Quest", category: "adventure", badge: "new", url: "https://example.com/game5" },
@@ -635,14 +635,8 @@
 
         // Play game function
         function playGame(title, url) {
-            // In a real implementation this would open the game in fullscreen or in a modal
-            // For demo purposes we just show an alert
-            alert(`Starting ${title}...\n\nIn a full version the game would load here via iframe from: ${url}`);
-
-            // Example of how to implement this in production:
-            // window.open(url, '_blank');
-            // or open a modal with iframe:
-            // showGameModal(url);
+            // Open game in new tab
+            window.open(url, '_blank');
         }
 
         // Initial render
