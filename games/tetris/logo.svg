@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Tetris T-piece logo -->
+  <rect x="20" y="60" width="40" height="40" fill="#A020F0" stroke="#000" stroke-width="2"/>
+  <rect x="60" y="60" width="40" height="40" fill="#A020F0" stroke="#000" stroke-width="2"/>
+  <rect x="100" y="60" width="40" height="40" fill="#A020F0" stroke="#000" stroke-width="2"/>
+  <rect x="60" y="100" width="40" height="40" fill="#A020F0" stroke="#000" stroke-width="2"/>
+
+  <!-- L-piece -->
+  <rect x="120" y="120" width="35" height="35" fill="#FFA500" stroke="#000" stroke-width="2"/>
+  <rect x="120" y="85" width="35" height="35" fill="#FFA500" stroke="#000" stroke-width="2"/>
+  <rect x="155" y="120" width="35" height="35" fill="#FFA500" stroke="#000" stroke-width="2"/>
+</svg>

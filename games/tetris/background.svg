@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Dark background with grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a1a2e" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="600" fill="#0f0f1e"/>
+  <rect width="800" height="600" fill="url(#grid)" opacity="0.3"/>
+
+  <!-- Decorative tetris pieces -->
+  <rect x="50" y="100" width="40" height="40" fill="#00FF00" opacity="0.3"/>
+  <rect x="90" y="100" width="40" height="40" fill="#00FF00" opacity="0.3"/>
+  <rect x="130" y="100" width="40" height="40" fill="#00FF00" opacity="0.3"/>
+  <rect x="170" y="100" width="40" height="40" fill="#00FF00" opacity="0.3"/>
+
+  <rect x="600" y="400" width="35" height="35" fill="#FF0000" opacity="0.2"/>
+  <rect x="635" y="400" width="35" height="35" fill="#FF0000" opacity="0.2"/>
+  <rect x="635" y="435" width="35" height="35" fill="#FF0000" opacity="0.2"/>
+  <rect x="670" y="435" width="35" height="35" fill="#FF0000" opacity="0.2"/>
+</svg>
