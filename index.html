@@ -1673,7 +1673,10 @@
                     // Sign up
                     result = await supabaseClient.auth.signUp({
                         email: email,
-                        password: password
+                        password: password,
+                        options: {
+                            emailRedirectTo: 'https://game-portal-black.vercel.app'
+                        }
                     });
                 }
 
